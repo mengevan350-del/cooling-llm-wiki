@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>伺服器與機房氣冷散熱：從介面到機房氣流</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent2: #34d399;
+      --warn: #fbbf24;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    header {
+      padding: 2rem 1.5rem 1rem;
+      max-width: 980px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+    }
+    header h1 { margin: 0 0 0.4rem; font-size: 1.8rem; color: var(--accent); }
+    header p { margin: 0; color: var(--muted); }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+    .slide {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 4px solid var(--accent);
+    }
+    .slide h2 { margin-top: 0; font-size: 1.25rem; color: var(--accent2); }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .box {
+      background: rgba(15, 23, 42, 0.55);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .box h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--warn); }
+    ul { margin: 0.4rem 0 0; padding-left: 1.25rem; }
+    li { margin-bottom: 0.35rem; }
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin-top: 0.75rem;
+    }
+    .step {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid var(--accent);
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+    footer {
+      max-width: 980px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>伺服器與機房氣冷散熱入門</h1>
+    <p>基於 LLM Wiki 整理的教學型簡報：帶初學者看懂「熱怎麼產生、哪裡會漏風/卡熱、如何降溫又省電」</p>
+  </header>
+
+  <main>
+    <section class="slide">
+      <h2>1. 為什麼氣冷散熱需要兼顧「降溫」與「節能」？</h2>
+      <p>晶片與伺服器算力越高、空間越緊湊，發熱量就越大。若散熱不足會導致過熱降頻或損壞；若風扇與空調全開不調整，則會造成龐大電費與冷卻能耗。</p>
+      <div class="grid-2">
+        <div class="box">
+          <h3>安全底線（不超溫）</h3>
+          <p>讓晶片、伺服器熱源與機櫃進風維持在安全溫度範圍內，避免熱點與過熱當機。</p>
+        </div>
+        <div class="box">
+          <h3>節能目標（少耗電、少震盪）</h3>
+          <p>在安全溫度下降低風扇轉速與冷卻功耗，並減少風扇轉速忽高忽低造成的震盪損耗。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <h2>2. 從晶片到機房：熱量與氣流的四個關鍵層級</h2>
+      <div class="grid-2">
+        <div class="box">
+          <h3>(1) 元件接觸介面（TIM）</h3>
+          <p>晶片與散熱器微觀表面有空隙，空氣導熱差會造成「熱流收縮」與熱阻上升，需靠散熱膏、導熱墊片或相變化材料（PCM）填補縫隙。</p>
+        </div>
+        <div class="box">
+          <h3>(2) 伺服器機內流道與風扇控制</h3>
+          <p>氣流在機內可能走「旁通（Bypass）」繞過鰭片；以 DDPG 強化學習調整風扇 PWM 工作週期，並搭配合適特徵與獎勵，可在控溫同時降低風扇功耗與震盪。</p>
+        </div>
+        <div class="box">
+          <h3>(3) 機櫃與通道封閉（旁通與壓差）</h3>
+          <p>即使做了冷熱通道封閉，通道壓差與機櫃縫隙仍可能讓冷風旁通繞過伺服器；控制壓差與氣密有助避免冷風浪費與能耗上升。</p>
+        </div>
+        <div class="box">
+          <h3>(4) 機房送風與氣流組織</h3>
+          <p>高架地板、硬地板、上吹/下吹與導流擋板會影響風速均勻度與冷熱風混合；若局部風速過高或出現負壓，可能造成進風不均或熱空氣回流。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <h2>3. 初學者常見的兩個散熱迷思</h2>
+      <ul>
+        <li><strong>迷思一：「把風速或冷氣開大就一定最好」</strong>：過度吹冷可能造成「過冷」與多餘耗電，甚至因壓差或局部高速氣流破壞氣流分配；風扇轉速劇烈震盪也會影響軸承壽命。</li>
+        <li><strong>迷思二：「封閉通道或加擋板就萬無一失」</strong>：減少某處旁通（例如加入 RAM 模型阻擋旁通）雖然能壓低該處溫度與功耗，但上游廢熱也可能讓下游元件入口溫度升高，需整體考量。</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <h2>4. 我們的 Wiki 整理與簡報產生 Loop</h2>
+      <div class="flow">
+        <span class="step">收集 5 篇來源並檢核適配性</span>
+        <span>→</span>
+        <span class="step">Ingest 拆頁至 Wiki</span>
+        <span>→</span>
+        <span class="step">查詢 Wiki 彙整跨層級脈絡</span>
+        <span>→</span>
+        <span class="step">檢查缺漏與新手可讀性</span>
+        <span>→</span>
+        <span class="step">生成教學 HTML 簡報</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    資料來源：本課程 LLM Wiki 整理（涵蓋邱致翰 2022 1U 氣冷 DDPG 研究、Honeywell 2024 TIM 應用說明、Energies 2020 HAC CFD 研究、Applied Energy 2016 通道旁通研究及陽明交大中小型資料中心 CFD 碩論）。
+  </footer>
+</body>
+</html>
